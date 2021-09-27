@@ -1,0 +1,15 @@
+---
+name: build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Make
+        run: ./dockcross make ARCH=arm LOCALVERSION=zImage -j 24
+      - name: Save artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: kernel
+          path: arch/arm/boot/zImage
