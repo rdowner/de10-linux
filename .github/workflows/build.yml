@@ -8,8 +8,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Make
         run: ./dockcross make ARCH=arm LOCALVERSION=zImage -j 24
-      - name: Save artifact
+      - name: Prepare modules
+        run: ./dockcross make ARCH=arm INSTALL_MOD_PATH=modules_install modules_install
+      - name: Save kernel artifact
         uses: actions/upload-artifact@v2
         with:
           name: kernel
           path: arch/arm/boot/zImage
+      - name: Save modules artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: modules
+          path: modules_install/
